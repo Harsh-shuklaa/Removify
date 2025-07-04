@@ -57,8 +57,36 @@ const clerkWebhooks = async (req, res) => {
     console.log("====================================");
     console.log(error.message);
     console.log("====================================");
-    res.json({ success: false, message: error });
+    res.json({ success: false, message: error .message});
   }
 };
 
-export {clerkWebhooks};
+
+
+// API  controller function to get user available credits data
+
+const userCredits = async (req, res) => {
+  try {
+    const clerkId = req.clerkId; // ✅ fixed
+
+    if (!clerkId) {
+      return res.status(400).json({ success: false, message: "Clerk ID missing" });
+    }
+
+    const userData = await userModel.findOne({ clerkId });
+
+    if (!userData) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, credits: userData.creditBalance });
+  } catch (error) {
+    console.log("====================================");
+    console.log(error.message);
+    console.log("====================================");
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+export {clerkWebhooks,userCredits};

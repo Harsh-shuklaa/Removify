@@ -12,7 +12,7 @@ await connectDB()
 
 
  //Initialize Middleware 
- app.use(express.json())
+ app.use(express.json());
  app.use(cors())
  //Api routes
 
